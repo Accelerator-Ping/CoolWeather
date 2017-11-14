@@ -2,6 +2,7 @@ package com.example.hp.coolweather.util;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.hp.coolweather.db.City;
 import com.example.hp.coolweather.db.County;
@@ -10,6 +11,8 @@ import com.example.hp.coolweather.db.Province;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static android.content.ContentValues.TAG;
 
 /**
  *
@@ -74,7 +77,7 @@ public class Utility {
      * @param cityId
      * @return
      */
-    private static boolean handleCountyResponse(String response,int cityId){
+    public static boolean handleCountyResponse(String response,int cityId){
         if (!TextUtils.isEmpty(response)){
             try {
                 JSONArray allCounties = new JSONArray(response);
