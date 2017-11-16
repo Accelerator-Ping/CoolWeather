@@ -105,7 +105,7 @@ public class Utility {
      */
     public static Weather handleWeatherResponse(String response){
         try{
-            JSONObject jsonObject = new JSONObject(response);                  //获得全部相应
+            JSONObject jsonObject = new JSONObject(response);                  //获得响应全文
             JSONArray jsonArray =jsonObject.getJSONArray("HeWeather");    //获得HeWeather下的json集合
             String weatherContent =jsonArray.getJSONObject(0).toString(); //获得集合中第一条json数据，转化为字符串
             return new Gson().fromJson(weatherContent,Weather.class);          //使用GSON的fromJson方法讲Json转化为Weather对象
