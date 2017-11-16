@@ -1,6 +1,7 @@
 package com.example.hp.coolweather;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -34,6 +35,8 @@ import okhttp3.Response;
 import static android.content.ContentValues.TAG;
 
 /**
+ *
+ * 将省市县的数据存放在数据库中
  * Created by hp on 2017/11/11.
  */
 
@@ -93,6 +96,12 @@ public class ChooseAreaFragment extends Fragment {
                 }else if(currentLevel == LEVEL_CITY){
                     selectedCity = cityList.get(i);          //获得选中市的实例
                     queryCounties();
+                }else if(currentLevel ==LEVEL_COUNTY){
+                    String weatherID = countyList.get(i).getWeatherId();
+                    Intent intent = new Intent(getActivity(),WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherID);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
@@ -147,7 +156,6 @@ public class ChooseAreaFragment extends Fragment {
             adapter.notifyDataSetChanged();
             listView.setSelection(0);
             currentLevel = LEVEL_CITY;
-            Log.d(TAG, "等级变为市");
         }else { //若数据库中没有数据则到网络上下载
             int provinceCode = selectedPrivince.getProvinceCode();//得到所属省的编码发送到网上查询数据
             String address = "http://guolin.tech/api/china/"+provinceCode;
