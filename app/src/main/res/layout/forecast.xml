@@ -6,14 +6,41 @@
     android:layout_margin="15dp"
     android:background="#8000">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:text="预报"
-        android:textColor="#fff"
-        android:textSize="20sp"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="预报"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="65dp"
+            android:text="最高温"
+            android:textColor="#fff"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/text_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:text="最低温"
+            android:textColor="#fff"
+            android:textSize="15dp" />
+
+    </RelativeLayout>
 
     <!--未来几天的信息-->
     <LinearLayout
@@ -23,5 +50,7 @@
         android:layout_height="wrap_content" >
 
     </LinearLayout>
+
+
 </LinearLayout>
 <!--未来几天天气信息的布局-->

@@ -205,7 +205,7 @@ public class WeatherActivity extends AppCompatActivity {
         String weatherInfo =weather.now.more.info;
         degreeText.setText(degree);
         titleCity.setText(cityName);
-        titleUpdateTime.setText(updateTime);
+        titleUpdateTime.setText("更新时间: "+updateTime);
         weatherInfoText.setText(weatherInfo);
         forecastLayout.removeAllViews();
 
