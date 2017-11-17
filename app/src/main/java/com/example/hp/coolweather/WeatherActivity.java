@@ -5,12 +5,15 @@ import android.graphics.Color;
 import android.os.Build;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -70,6 +73,10 @@ public class WeatherActivity extends AppCompatActivity {
 
     private String mWeatherId;                      //记录城市天气ID  全局变量 用于刷新
 
+    public DrawerLayout drawerLayout;              //滑动菜单
+
+    private Button navbutton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +109,8 @@ public class WeatherActivity extends AppCompatActivity {
         bingPicImg = findViewById(R.id.bing_pic_img);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);//设置刷新颜色
+        drawerLayout = findViewById(R.id.drawable_layout);
+        navbutton = findViewById(R.id.nav_button);
 
         //判断是否有Weather对象的缓存缓存
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -124,11 +133,19 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
 
+        //监听左侧按钮
+        navbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);  //点击打开滑动菜单
+            }
+        });
+
         //判断有没有bingPic的缓存 有的话直接展示 没有则下载并缓存
         String bingPic = prefs.getString("bing_pic",null);
         if(bingPic != null){
             Glide.with(this).load(bingPic).into(bingPicImg);
-        }else{//若缓存中没有图片url 则下载值缓存
+        }else{//若缓存中没有图片url 则下载至缓存
             loadBingPic();
             //String picMy = getMyPci();得到我的图库中的随机图片
             //Glide.with(this).load(picMy).into(bingPicImg);
@@ -136,11 +153,12 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     /**
-     * 根据天气id请求城市天气信息
+     * 根据天气id请求城市天气信息  请求完成后关闭刷新进度条
      */
     public void requestWeather(final String weatherId) {
         //组装请求URL
         String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=1bb570234e724030a1bd95faae10458d";
+        mWeatherId=weatherId;
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

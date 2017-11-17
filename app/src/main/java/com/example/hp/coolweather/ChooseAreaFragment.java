@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.hp.coolweather.db.City;
 import com.example.hp.coolweather.db.County;
 import com.example.hp.coolweather.db.Province;
+import com.example.hp.coolweather.gson.Weather;
 import com.example.hp.coolweather.util.HttpUtil;
 import com.example.hp.coolweather.util.Utility;
 
@@ -98,10 +99,17 @@ public class ChooseAreaFragment extends Fragment {
                     queryCounties();
                 }else if(currentLevel ==LEVEL_COUNTY){
                     String weatherID = countyList.get(i).getWeatherId();
-                    Intent intent = new Intent(getActivity(),WeatherActivity.class);
-                    intent.putExtra("weather_id",weatherID);
-                    startActivity(intent);
-                    getActivity().finish();
+                    if (getActivity() instanceof MainActivity){//如果碎片在MainActivity中
+                        Intent intent = new Intent(getActivity(),WeatherActivity.class);
+                        intent.putExtra("weather_id",weatherID);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }else if (getActivity() instanceof WeatherActivity){//如果碎片在Weather中
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.drawerLayout.closeDrawers();//关闭下滑菜单
+                        activity.swipeRefreshLayout.setRefreshing(true);//展示刷新进度条
+                        activity.requestWeather(weatherID);             //重新请求选中县的天气数据
+                    }
                 }
             }
         });
